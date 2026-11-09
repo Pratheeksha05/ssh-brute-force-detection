@@ -1,7 +1,8 @@
 import re
 import csv
+import ipaddress
 from collections import Counter
-from pathlib import Path
+from pathlib import Path    
 
 LOG_FILE = Path("auth.log")
 REPORT_FILE = Path("security_report.csv")
@@ -25,8 +26,14 @@ with LOG_FILE.open("r", encoding="utf-8") as file:
 
         match = IP_PATTERN.search(line)
         if match:
-            ip_address = match.group()
-            failed_attempts[ip_address] += 1
+            candidate_ip = match.group()
+            try:
+                validated_ip = ipaddress.ip_address(candidate_ip)
+            except ValueError:
+                continue
+
+            if isinstance(validated_ip, ipaddress.IPv4Address):
+                failed_attempts[str(validated_ip)] += 1
 
 print("SSH BRUTE-FORCE DETECTION REPORT")
 print("-" * 35)
