@@ -39,10 +39,12 @@ SSH-Brute-Force-Detection/
 1. The program reads the authentication log file.
 2. It searches for entries containing "Failed password".
 3. It extracts the associated IP addresses.
-4. It counts failed login attempts using Python's Counter.
-5. It compares the counts against a threshold of 5.
-6. It flags IP addresses that meet or exceed the threshold.
-7. It exports the results to a CSV report.
+4. Validates extracted IPv4 addresses using Python's built-in `ipaddress` module.
+5. Skips invalid IP addresses to prevent incorrect entries from affecting the detection results.
+6. It counts failed login attempts using Python's Counter.
+7. It compares the counts against a threshold of 5.
+8. It flags IP addresses that meet or exceed the threshold.
+9. It exports the results to a CSV report.
 
 ## 6. Detection Logic
 
